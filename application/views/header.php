@@ -120,18 +120,7 @@
               <li><a href="<?php echo base_url();?>web/view_jabatan"><i class="fa  fa-chevron-right"></i> <span>Jabatan</span></a></li>
             </ul>
           </li>
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-gears"></i> <span>Kriteria</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_pertama"><i class="fa  fa-chevron-right"></i> <span>Electre</span></a></li>
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_akhir"><i class="fa  fa-chevron-right"></i> <span>Weighted Product</span></a></li>
-            </ul>
-          </li>
+          <li><a href="<?php echo base_url();?>web/view_kriteria_saw"><i class="fa fa-gears"></i> <span>Indikator Penilaian</span></a></li>
           <li class="treeview">
             <a href="#">
               <i class="fa  fa-file-text"></i> <span>Nilai Bobot Kriteria</span>

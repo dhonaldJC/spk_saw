@@ -8,7 +8,7 @@
             </div>
           <!-- Box Input Data-->
             <div class="box-body">
-            <?php foreach($edit_fak->result_array() as $row)?>
+            <?php foreach($edit_jab->result_array() as $row)?>
               <form action="<?php echo base_url();?>web/update_jabatan" method="post" enctype="multipart/form-data">
 
                 <div class="col-md-12">

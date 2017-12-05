@@ -154,6 +154,38 @@ class Web_model extends CI_Model {
 		$this->db->delete('jabatan');
 	}
 
+
+	function kriteria_saw(){
+		$this->db->select('*');
+		$this->db->from('kriteria_saw');
+		$q	=	$this->db->get();
+		return $q;
+	}
+
+	function input_kriteria_saw($data){
+		$q	=	$this->db->insert('kriteria_saw',$data);
+		return $q;
+	}
+
+	function edit_kriteria_saw($id){
+		$this->db->select('*');
+		$this->db->from('kriteria_saw');
+		$this->db->where('id_kriteria_SAW', $id);
+		$q = $this->db->get();
+		return $q;
+	}
+
+	function update_kriteria_saw($data,$id){
+		$this->db->where('id_kriteria_SAW', $id);
+		$this->db->update('kriteria_saw', $data);
+	}
+
+	function hapus_kriteria_saw($id){
+		$this->db->where('id_kriteria_SAW',$id);
+		$this->db->delete('kriteria_saw');
+	}
+
+
 	function usulan(){
 		$this->db->select('*');
 		$this->db->from('usulan');

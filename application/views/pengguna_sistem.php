@@ -35,9 +35,8 @@
               <label>Akses Sistem</label>
               <select name="hak_akses" class="form-control">
                 <option value="" disabled selected>Pilih Hak Akses</option>
-                <option value="1">STAFF PMW</option>
-                <option value="2">REVIEWER</option>
-                <option value="5">EVALUATOR</option>
+                <option value="1">ADMIN</option>
+                <option value="2">KARYAWAN</option>
                 <option value="4">PIMPINAN PMW</option>
               </select>
             </div>
@@ -83,11 +82,11 @@
                   <td><center><?php echo $data['nama'];?></center></td>
                   <td><center><?php echo $data['jabatan'];?></center></td>
                   <td>
-                    <center><?php if($data['hak_akses']=='1'){ echo "Staff PMW";}?></center>
-                    <center><?php if($data['hak_akses']=='2'){ echo "Reviewer (Penilai jabatan)";}?></center>
-                    <center><?php if($data['hak_akses']=='3'){ echo "Mahasiswa Pengusul";}?></center>
-                    <center><?php if($data['hak_akses']=='4'){ echo "Pimpinan PMW";}?></center>
-                    <center><?php if($data['hak_akses']=='5'){ echo "Evaluator PMW";}?></center>
+                    <center><?php if($data['hak_akses']=='1'){ echo "ADMIN";}?></center>
+                    <center><?php if($data['hak_akses']=='2'){ echo "KARYAWAN";}?></center>
+                    <center><?php if($data['hak_akses']=='3'){ echo "---";}?></center>
+                    <center><?php if($data['hak_akses']=='4'){ echo "PIMPINAN";}?></center>
+                    <center><?php if($data['hak_akses']=='5'){ echo "--";}?></center>
                   </td>
                   <td width="100px"><center>
                     <a href="<?php echo base_url('web/edit_pengguna_sistem');?>/<?php echo $data['id_pengguna'];?>"><button class="btn btn-info btn-sm"><i class="fa fa-edit"></i></button></a>

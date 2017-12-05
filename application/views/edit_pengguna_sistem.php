@@ -37,16 +37,16 @@
               <label>HAK AKSES</label>
               <select name="hak_akses" class="form-control">
                 <option value="" disabled selected>
-                  <?php if($row['hak_akses']=='1'){ echo "Staff PMW";}?>
-                  <?php if($row['hak_akses']=='2'){ echo "Reviewer (Penilai jabatan)";}?>
-                  <?php if($row['hak_akses']=='3'){ echo "Mahasiswa Pengusul";}?>
-                  <?php if($row['hak_akses']=='4'){ echo "Pimpinan PMW";}?>
-                  <?php if($row['hak_akses']=='5'){ echo "Evaluator PMW";}?>
+                  <?php if($row['hak_akses']=='1'){ echo "ADMIN";}?>
+                  <?php if($row['hak_akses']=='2'){ echo "KARYAWAN";}?>
+                  <?php if($row['hak_akses']=='3'){ echo "---";}?>
+                  <?php if($row['hak_akses']=='4'){ echo "PIMPINAN";}?>
+                  <?php if($row['hak_akses']=='5'){ echo "--";}?>
                 </option>
-                <option value="1">STAFF PMW</option>
-                <option value="2">REVIEWER</option>
-                <option value="5">EVALUATOR</option>
-                <option value="4">PIMPINAN PMW</option>
+                <option value="1">ADMIN</option>
+                <option value="2">KARYAWAN</option>
+                <option value="4">PIMPINAN</option>
+                <option value="5">-</option>
               </select>
             </div>
             <div class="form-group col-lg-6">
