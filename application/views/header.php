@@ -58,7 +58,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="<?php echo base_url();?>asset/admin.png" class="user-image" alt="User Image">
-              <span class="hidden-xs"><b><?php echo $user['nama'];?></b></span>
+              <span class="hidden-xs"><b><?php echo $user['name'];?></b></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -66,7 +66,7 @@
                 <img src="<?php echo base_url();?>asset/admin.png" class="img-circle" alt="User Image">
 
                 <p>
-                  <b><?php echo $user['nama'];?></b>
+                  <b><?php echo $user['name'];?></b>
                   <small><?php if($user['hak_akses']=='1'){ echo "Login as : Staff PMW";}?></small>
                   <small><?php if($user['hak_akses']=='2'){ echo "Login as : Penilai Fakultas";}?></small>
                   <small><?php if($user['hak_akses']=='3'){ echo "Login as : Mahasiswa Pengusul";}?></small>
@@ -106,8 +106,8 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <?php if($user['hak_akses']=='1'){?>
-        <li class="header">STAFF NAVIGATION</li>
-        <!-- As Staff -->
+        <li class="header">Admin NAVIGATION</li>
+        <!-- As Admin -->
           <li class="treeview">
             <a href="#">
               <i class="fa fa-database"></i> <span>Data Master</span>
@@ -120,129 +120,30 @@
               <li><a href="<?php echo base_url();?>web/view_jabatan"><i class="fa  fa-chevron-right"></i> <span>Jabatan</span></a></li>
             </ul>
           </li>
-          <li><a href="<?php echo base_url();?>web/view_kriteria_saw"><i class="fa fa-gears"></i> <span>Indikator Penilaian</span></a></li>
-          <li class="treeview">
-            <a href="#">
-              <i class="fa  fa-file-text"></i> <span>Nilai Bobot Kriteria</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_pertama"><i class="fa  fa-chevron-right"></i> <span>Electre</span></a></li>
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_akhir"><i class="fa  fa-chevron-right"></i> <span>Weighted Product</span></a></li>
-            </ul>
-          </li>
-
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-file"></i> <span>Data Nilai Seleksi</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url();?>web/recom_electre"><i class="fa fa-star-o"></i> <span>Electre</span></a></li>
-          <li><a href="<?php echo base_url();?>web/recom_wp"><i class="fa fa-star-o"></i> <span>Weighted Product</span></a></li>
-            </ul>
-          </li>
-          <li class="treeview">
-            <a href="#">
-              <i class="fa fa-print"></i> <span>Laporan</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_pertama"><i class="fa  fa-chevron-right"></i> <span>Rekomendasi</span></a></li>
-              <li><a href="<?php echo base_url();?>web/kriteria_seleksi_akhir"><i class="fa  fa-chevron-right"></i> <span>Ranking</span></a></li>
-            </ul>
-          </li>
+          <li><a href="<?php echo base_url();?>web/view_kriteria_saw"><i class="fa fa-gears"></i> <span>Indikator Penilaian</span>
+          </a></li>
+          <li><a href="<?php echo base_url();?>web/penilaian_karyawan"><i class="fa fa-book"></i> <span>Penilaian</span>
+          </a></li>
+          <li><a href="<?php echo base_url();?>web/ranking"><i class="fa fa-book"></i> <span>Ranking</span>
+          </a></li>
 
         <?php } ?>
 
         <?php if($user['hak_akses']=='2'){?>
-        <li class="header">PENILAI FAKULTAS NAVIGATION</li>
-        <!-- As Penilai Fakultas -->
+        <li class="header">Pimpinan NAVIGATION</li>
+        <!-- As Pimpinan -->
         <li><a href="<?php echo base_url();?>web/list_usulan_usaha"><i class="fa fa-book"></i> <span>Penilaian [ TAHAP 1 ]<small class="label pull-right badge bg-green" id="penilaian_pertama"></small></span></a></li>
         <li><a href="<?php echo base_url();?>web/recom_electre"><i class="fa fa-star-o"></i> <span>Seleksi Tahap Pertama</span></a></li>
         <?php } ?>
 
         <?php if($user['hak_akses']=='3'){?>
-        <li class="header">PENGUSUL NAVIGATION</li>
-        <!-- As Pengusul -->
+        <li class="header">Karyawan NAVIGATION</li>
+        <!-- As Karyawan -->
         <li><a href="<?php echo base_url();?>web/form_usulan_usaha"><i class="fa fa-book"></i> <span>Form Usulan Usaha</span></a></li>
         <li><a href="<?php echo base_url();?>web/form_upload_usulan"><i class="fa fa-book"></i> <span>Form Upload Usulan Usaha</span></a></li>
         <li><a href="<?php echo base_url();?>web/timeline_usaha"><i class="fa fa-spinner"></i> <span>Timeline Usulan Usaha</span></a></li>
         <?php } ?>
-
-        <?php if($user['hak_akses']=='4'){?>
-        <li class="header">PIMPINAN PMW NAVIGATION</li>
-        <!-- As Pimpinan -->
-        <li><a href="<?php echo base_url();?>web/recom_wp"><i class="fa fa-star-o"></i> <span>Seleksi Tahap Akhir</span></a></li>
-        <?php } ?>
-
-        <?php if($user['hak_akses']=='5'){?>
-        <li class="header">EVALUATOR PMW NAVIGATION</li>
-        <!-- As Evaluator -->
-        <li><a href="<?php echo base_url();?>web/view_tahap_akhir"><i class="fa fa-book"></i> <span>Penilaian [ TAHAP 2 ]<small class="label pull-right badge bg-green" id="penilaian_akhir"></small></span></a></li>
-        <li><a href="<?php echo base_url();?>web/recom_wp"><i class="fa fa-star-o"></i> <span>Seleksi Tahap Akhir</span></a></li>
-        <?php } ?>
-
       </ul>
-      <script src="<?php echo base_url();?>asset/plugins/jQuery/jquery-2.2.3.min.js" type="text/javascript"></script>
-    <script>
-      function validasi_usaha(){
-        $.ajax({
-          url: "<?php echo base_url('web/cek_validasi_usaha'); ?>",
-          cache: false,
-          success: function(msg){
-            $("#validasi_usaha").html(msg);
-          }
-        });
-        var waktu = setTimeout("validasi_usaha()",2000);
-      }
-
-        $(document).ready(function(){
-          validasi_usaha();
-        });
-    </script>
-
-    <script>
-      function penilaian_pertama(){
-        $.ajax({
-          url: "<?php echo base_url('web/cek_penilaian_pertama'); ?>",
-          cache: false,
-          success: function(msg){
-            $("#penilaian_pertama").html(msg);
-          }
-        });
-        var waktu = setTimeout("penilaian_pertama()",2000);
-      }
-
-        $(document).ready(function(){
-          penilaian_pertama();
-        });
-    </script>
-
-    <script>
-      function penilaian_akhir(){
-        $.ajax({
-          url: "<?php echo base_url('web/cek_penilaian_akhir'); ?>",
-          cache: false,
-          success: function(msg){
-            $("#penilaian_akhir").html(msg);
-          }
-        });
-        var waktu = setTimeout("penilaian_akhir()",2000);
-      }
-
-        $(document).ready(function(){
-          penilaian_akhir();
-        });
-    </script>
-
-
     </section>
     <!-- /.sidebar -->
   </aside>

@@ -3,6 +3,7 @@
 class Web_model extends CI_Model {
 	function __construct(){
         parent::__construct();
+        $this->load->dbforge();
     }
 
 	function login($nim,$password){
@@ -62,66 +63,6 @@ class Web_model extends CI_Model {
 	function hapus_pengguna_sistem($id){
 		$this->db->where('id_pengguna',$id);
 		$this->db->delete('pengguna');
-	}
-
-	function kategori_usaha(){
-		$this->db->select('*');
-		$this->db->from('kategori_usaha');
-		$q	=	$this->db->get();
-		return $q;
-	}
-
-	function input_kategori_usaha($data){
-		$q	=	$this->db->insert('kategori_usaha',$data);
-		return $q;
-	}
-
-	function edit_kategori_usaha($id){
-		$this->db->select('*');
-		$this->db->from('kategori_usaha');
-		$this->db->where('id_ku', $id);
-		$q = $this->db->get();
-		return $q;
-	}
-
-	function update_kategori_usaha($data,$id){
-		$this->db->where('id_ku', $id);
-		$this->db->update('kategori_usaha', $data);
-	}
-
-	function hapus_kategori_usaha($id){
-		$this->db->where('id_ku',$id);
-		$this->db->delete('kategori_usaha');
-	}
-
-	function jenis_usaha(){
-		$this->db->select('*');
-		$this->db->from('jenis_usaha');
-		$q	=	$this->db->get();
-		return $q;
-	}
-
-	function input_jenis_usaha($data){
-		$q	=	$this->db->insert('jenis_usaha',$data);
-		return $q;
-	}
-
-	function edit_jenis_usaha($id){
-		$this->db->select('*');
-		$this->db->from('jenis_usaha');
-		$this->db->where('id_ju', $id);
-		$q = $this->db->get();
-		return $q;
-	}
-
-	function update_jenis_usaha($data,$id){
-		$this->db->where('id_ju', $id);
-		$this->db->update('jenis_usaha', $data);
-	}
-
-	function hapus_jenis_usaha($id){
-		$this->db->where('id_ju',$id);
-		$this->db->delete('jenis_usaha');
 	}
 
 	function jabatan(){
@@ -185,317 +126,115 @@ class Web_model extends CI_Model {
 		$this->db->delete('kriteria_saw');
 	}
 
-
-	function usulan(){
-		$this->db->select('*');
-		$this->db->from('usulan');
-		$this->db->group_by('kode_usulan');
-		$q	=	$this->db->get();
+	function karyawan(){
+		$q 	=	$this->db->query('SELECT * FROM `pengguna` WHERE hak_akses = "3"');
 		return $q;
 	}
 
-	public function getAlldatausulan(){
-		$this->db->select('*');
-		$this->db->from('usulan');
-		$this->db->order_by('kode_usulan', 'asc');
-		$result = $this->db->get();
-		return $result;
-	}
+	public function getkriteria(){
+        $query = $this->db->get('kriteria_saw');
+        if($query->num_rows() > 0){
+            foreach ( $query->result() as $row) {
+                $kriterias[] = $row;
+            }
+            return $kriterias;
+        }
+    }
 
-	function input_usulan_usaha($data){
-		$q	=	$this->db->insert('usulan',$data);
-		return $q;
-	}
+    private function getDatasubkriteria(){
+        $data = array(
+            'kode_kriteria_SAW' => $this->kode_kriteria_SAW,
+            'subKriteria' => $this->subKriteria,
+            'value' => $this->value
+        );
+        return $data;
+    }
 
-	function edit_usulan_usaha($kode_usulan){
-		$this->db->select('*');
-		$this->db->from('usulan');
-		$this->db->where('kode_usulan', $kode_usulan);
-		$q = $this->db->get();
-		return $q;
-	}
+    public function getByIdsubkriteria(){
+        $this->db->where('kode_kriteria_SAW', $this->kode_kriteria_SAW);
+        $query = $this->db->get('subkriteria');
 
-	function update_usulan_usaha($data,$kode_usulan){
-		$this->db->where('kode_usulan', $kode_usulan);
-		$this->db->update('usulan', $data);
-	}
+        if($query->num_rows() > 0){
+            foreach ($query->result() as $row) {
+                $subkriteria[] = $row;
+            }
+            return $subkriteria;
+        }
+    }
 
-	function hapus_usulan_usaha($kode_usulan){
-		$this->db->where('kode_usulan',$kode_usulan);
-		$this->db->delete('usulan');
-	}
+    private function getDataNilai(){
+        $data = array(
+            'nim' => $this->nim,
+            'kode_kriteria_SAW' => $this->kode_kriteria_SAW,
+            'nilai' => $this->nilai
+        );
+        return $data;
+    }
 
-	function all_usulan(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha');
-		return $q;
-	}
+	public function insert_nilai(){
+        $status = $this->db->insert('nilai', $this->getDataNilai());
+        return $status;
+    }
 
-	function all_data_usulan(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha WHERE (u.kode_usulan NOT IN (SELECT kode_usulan FROM tahap_pertama)) AND u.validasi = "1"');
-		return $q;
-	}
+    public function getAllkaryawan(){
+        $karyawan = array();
+        $query = $this->db->get('pengguna');
+        if($query->num_rows() > 0){
+            foreach ($query->result() as $row) {
+                $karyawan[] = $row;
+            }
+        }
+        return $karyawan;
+    }
 
-	function usulan_notvalidate(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha where u.validasi="0"');
-		return $q;
-	}
+	public function getNilaiKaryawan(){
+        $query = $this->db->query(
+            'select u.nim, u.name, k.kode_kriteria_SAW, k.kriteria_SAW ,n.nilai from pengguna u, nilai n, kriteria_SAW k where u.nim = n.nim AND k.kode_kriteria_SAW = n.kode_kriteria_SAW'
+        );
+        if($query->num_rows() > 0){
+            foreach ($query->result() as $row) {
+                $nilai[] = $row;
+            }
+            return $nilai;
+        }
+    }
 
-	function usulan_validate(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha where u.validasi="1"');
-		return $q;
-	}
+    public function createTable($field)
+    {
+        $fields = array(
+            'nim VARCHAR(120) not null'
+        );
 
-	function validasi_usulan($data,$kode_usulan){
-		$this->db->where('kode_usulan', $kode_usulan);
-		$this->db->update('usulan', $data);
-	}
 
-	function give_nilaiusulan($kode_usulan){
-		$this->db->select('*');
-		$this->db->from('usulan');
-		$this->db->where('kode_usulan',$kode_usulan);
-		$q	=	$this->db->get();
-		return $q;
-	}
+        foreach ($field as $item => $value) {
+            $fields[] = $value->kriteria_SAW.' DECIMAL(13,2) not null ';
+        }
 
-	public function criteria_elektre(){
-		$this->db->select('*');
-		$this->db->from('kriteria_elektre');
-		$result = $this->db->get();
-		return $result;
-	}
+        $this->dbforge->add_field($fields);
+        $this->dbforge->create_table('saw');
+    }
 
-	public function getAlldatakategori_elektre(){
-		$this->db->select('*');
-		$this->db->from('kategori_kriteria_elektre');
-		$result = $this->db->get();
-		return $result;
-	}
+    public function deleteTable(){
+        $this->dbforge->drop_table('saw');
+    }
 
-	public function getAll_elektre(){
-		$this->db->select('*');
-		$this->db->from('nilai_bobot_elektre');
-		$result = $this->db->get();
-		return $result;
-	}
+	public function insert_saw($data){
+        $status = $this->db->insert('saw', $data);
+        return $status;
+    }
 
-	public function getevaluation_elektre() {
-		$this->db->select('sum(ne.bobot) as jumlah');
-		$this->db->from('evaluation_elektre e');
-		$this->db->join('kategori_kriteria_elektre  ker','ker.id_kategorikrit_elektre = e.id_kategorikrit_elektre');
-		$this->db->join('usulan u','u.kode_usulan = e.kode_usulan');
-		$this->db->join('nilai_bobot_elektre ne','ne.id_nilaibobot_elektre = e.id_nilaibobot_elektre');
-		$this->db->join('kriteria_elektre kre','kre.id_kriteria = ker.id_kriteria');
-		$this->db->group_by("kre.id_kriteria");
-		$this->db->order_by("e.kode_usulan");
-		  	$query = $this->db->get();
-			return $query;
-	}
+    public function getAllSAW()
+    {
+        $query = $this->db->get('saw');
+        if($query->num_rows() > 0){
+            foreach ( $query->result() as $row) {
+                $saw[] = $row;
+            }
+            return $saw;
+        }
+    }
 
-	public function getdataevaluation_elektre() {
-		$this->db->select('*');
-		$this->db->from('evaluation_elektre e');
-		$this->db->join('kategori_kriteria_elektre  ker','ker.id_kategorikrit_elektre = e.id_kategorikrit_elektre');
-		$this->db->join('usulan u','u.kode_usulan = e.kode_usulan');
-		$this->db->join('nilai_bobot_elektre ne','ne.id_nilaibobot_elektre = e.id_nilaibobot_elektre');
-		$this->db->join('kriteria_elektre kre','kre.id_kriteria = ker.id_kriteria');
-		$this->db->order_by("e.kode_usulan");
-		$this->db->order_by("ker.kategori","DESC");
-		  	$query = $this->db->get();
-			return $query;
-	}
-
-	public function getdataevaluation_elektrebykategori() {
-		$this->db->select('*');
-		$this->db->from('evaluation_elektre e');
-		$this->db->join('kategori_kriteria_elektre  ker','ker.id_kategorikrit_elektre = e.id_kategorikrit_elektre');
-		$this->db->join('usulan u','u.kode_usulan = e.kode_usulan');
-		$this->db->join('nilai_bobot_elektre ne','ne.id_nilaibobot_elektre = e.id_nilaibobot_elektre');
-		$this->db->join('kriteria_elektre kre','kre.id_kriteria = ker.id_kriteria');
-		$this->db->order_by("ker.kategori","DESC");
-		  	$query = $this->db->get();
-			return $query;
-	}
-
-	function usulan_elektre(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha');
-		return $q;
-	}
-
-	function usulan_wp(){
-		$q 	=	$this->db->query('SELECT * FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha JOIN evaluation_wp k ON k.kode_usulan=u.kode_usulan GROUP BY u.kode_usulan');
-		return $q;
-	}
-
-	function input_tahap1($data){
-		$q	=	$this->db->insert('tahap_pertama',$data);
-		return $q;
-	}
-
-	function seleksi_tahap_akhir(){
-		$q 	=	$this->db->query('SELECT * FROM tahap_pertama tp JOIN pengguna p ON p.nim=tp.nim_ketua JOIN kategori_usaha ku on ku.kode_kategori_usaha=tp.kode_kategori_usaha');
-		return $q;
-	}
-
-	public function subkriteria_wp(){
-		$this->db->select('*');
-		$this->db->from('subkriteria_wp');
-		$result = $this->db->get();
-		return $result;
-	}
-
-	public function getAlldatasubkategori_WP(){
-		$this->db->select('*');
-		$this->db->from('nilai_bobot_wp');
-		$result = $this->db->get();
-		return $result;
-	}
-
-	public function getevaluation_wp() {
-		$this->db->select('sum(nwp.bobot_nilaiWP) as jumlah');
-		$this->db->from('evaluation_wp ewp');
-		$this->db->join('usulan u','u.kode_usulan=ewp.kode_usulan');
-		$this->db->join('subkriteria_wp swp','swp.kode_subkriteria_WP=ewp.kode_subkriteria_WP');
-		$this->db->join('nilai_bobot_wp nwp','nwp.id_nilaibobot_WP=ewp.id_nilaibobot_WP');
-		$this->db->join('kriteria_wp kwp','kwp.kode_kriteria_WP=swp.kode_kriteria_WP');
-		$this->db->group_by("kwp.kode_kriteria_WP");
-		$this->db->order_by("u.kode_usulan");
-		  	$query = $this->db->get();
-			return $query;
-	}
-
-	public function getdataevaluation_wp() {
-		$this->db->select('*');
-		$this->db->from('evaluation_elektre e');
-		$this->db->join('kategori_kriteria_elektre  ker','ker.id_kategorikrit_elektre = e.id_kategorikrit_elektre');
-		$this->db->join('usulan u','u.kode_usulan = e.kode_usulan');
-		$this->db->join('nilai_bobot_elektre ne','ne.id_nilaibobot_elektre = e.id_nilaibobot_elektre');
-		$this->db->join('kriteria_elektre kre','kre.id_kriteria = ker.id_kriteria');
-		$this->db->order_by("e.kode_usulan");
-		$this->db->order_by("ker.kategori","DESC");
-		  	$query = $this->db->get();
-			return $query;
-	}
-
-	public function getdataevaluation_wpbykategori() {
-		$this->db->select('*');
-		$this->db->from('evaluation_elektre e');
-		$this->db->join('kategori_kriteria_elektre  ker','ker.id_kategorikrit_elektre = e.id_kategorikrit_elektre');
-		$this->db->join('usulan u','u.kode_usulan = e.kode_usulan');
-		$this->db->join('nilai_bobot_elektre ne','ne.id_nilaibobot_elektre = e.id_nilaibobot_elektre');
-		$this->db->join('kriteria_elektre kre','kre.id_kriteria = ker.id_kriteria');
-		$this->db->order_by("ker.kategori","DESC");
-		  	$query = $this->db->get();
-			return $query;
-	}
-
-	public function getAlldatapengusul(){
-		$this->db->select('*');
-		$this->db->from('usulan');
-		$this->db->order_by('kode_usulan', 'asc');
-		$result = $this->db->get();
-		return $result;
-	}
-
-	public function getAlldatabobotkriteria(){
-		$this->db->select('*');
-		$this->db->from('evaluation_wp');
-		$result = $this->db->get();
-		return $result;
-	}
-
-	public function getAlldatapertanyaan(){
-		$this->db->select('*');
-		$this->db->from('nilai_bobot_wp');
-		$result = $this->db->get();
-		return $result;
-	}
-
-	public function evaluation_elektre(){
-		$this->db->select('*');
-		$this->db->from('evaluation_elektre');
-		$this->db->group_by('kode_usulan');
-		$result = $this->db->get();
-		return $result;
-	}
-//upload
-	function upload_cashflow($data){
-		$q	=	$this->db->insert('upload_cashflow',$data);
-		return $q;
-	}
-
-	function upload_cv($data){
-		$q	=	$this->db->insert('upload_cv',$data);
-		return $q;
-	}
-
-	function upload_kpm($data){
-		$q	=	$this->db->insert('upload_kpm',$data);
-		return $q;
-	}
-
-	function upload_pernyataanpelatihan($data){
-		$q	=	$this->db->insert('upload_pernyataanpelatihan',$data);
-		return $q;
-	}
-
-	function detail_usulan(){
-		$this->db->select('*');
-		$this->db->from('usulan u');
-		$this->db->join('explicit e','e.id_pengguna=p.id_pengguna');
-		$this->db->where('e.id_explicit', $id);
-		$q = $this->db->get();
-		return $q;
-	}
-
-	function validasi_usaha(){
-		$this->db->select('count(kode_usulan) as jml');
-		$this->db->from('usulan');
-		$this->db->where('validasi','0');
-		$q = $this->db->get();
-		return $q;
-	}
-
-	function cek_tahap_pertama(){
-		$q 	=	$this->db->query('SELECT COUNT(kode_usulan) as jml FROM usulan u JOIN pengguna p ON p.nim=u.nim_ketua JOIN kategori_usaha ku ON ku.kode_kategori_usaha=u.kode_kategori_usaha WHERE (u.kode_usulan NOT IN (SELECT kode_usulan FROM tahap_pertama)) AND u.validasi = "1"');
-		return $q;
-	}
-
-	function cek_tahap_akhir(){
-		$this->db->select('count(id_tahappertama) as jml');
-		$this->db->from('tahap_pertama');
-		$q = $this->db->get();
-		return $q;
-	}
-
-	function data_kriteria_elektre(){
-		$q 	=	$this->db->query('SELECT * FROM `kategori_kriteria_elektre` kke JOIN kriteria_elektre ke ON ke.id_kriteria = kke.id_kriteria JOIN nilai_bobot_elektre nbe ON nbe.id_kriteria=kke.id_kriteria');
-		return $q;
-	}
-
-	function data_kriteria_wp(){
-		$q 	=	$this->db->query('SELECT * FROM `subkriteria_wp` sw JOIN kriteria_wp kw ON kw.kode_kriteria_WP=sw.kode_kriteria_WP JOIN nilai_bobot_wp nw ON nw.kode_subkriteria_WP=sw.kode_subkriteria_WP');
-		return $q;
-	}
-
-	function file_cashflow(){
-		$q = $this->db->query('SELECT uc.kode_usulan, uc.userfile AS file_cashflow FROM `upload_cashflow` uc JOIN usulan u ON u.kode_usulan=uc.kode_usulan');
-		return $q;
-	}
-
-	function file_kpm(){
-		$q = $this->db->query('SELECT uc.kode_usulan, uc.userfile AS file_kpm FROM `upload_kpm` uc JOIN usulan u ON u.kode_usulan=uc.kode_usulan');
-		return $q;
-	}
-
-	function file_cv(){
-		$q = $this->db->query('SELECT uc.kode_usulan, uc.userfile AS file_cv FROM `upload_cv` uc JOIN usulan u ON u.kode_usulan=uc.kode_usulan');
-		return $q;
-	}
-
-	function file_pelatihan(){
-		$q = $this->db->query('SELECT  uc.kode_usulan,uc.userfile AS file_pelatihan FROM `upload_pernyataanpelatihan` uc JOIN usulan u ON u.kode_usulan=uc.kode_usulan');
-		return $q;
-	}
-
+    public function dropTableSAW(){
+        $this->dbforge->drop_table('saw',TRUE);
+    }
 }

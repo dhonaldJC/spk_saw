@@ -36,8 +36,8 @@
               <select name="hak_akses" class="form-control">
                 <option value="" disabled selected>Pilih Hak Akses</option>
                 <option value="1">ADMIN</option>
-                <option value="2">KARYAWAN</option>
-                <option value="4">PIMPINAN PMW</option>
+                <option value="3">KARYAWAN</option>
+                <option value="2">PIMPINAN PMW</option>
               </select>
             </div>
             <div class="form-group col-lg-6">
@@ -79,7 +79,7 @@
                 <tr>
                   <td width="20px"><center><?php echo $no;?></center></td>
                   <td><center><?php echo $data['nim'];?></center></td>
-                  <td><center><?php echo $data['nama'];?></center></td>
+                  <td><center><?php echo $data['name'];?></center></td>
                   <td><center><?php echo $data['jabatan'];?></center></td>
                   <td>
                     <center><?php if($data['hak_akses']=='1'){ echo "ADMIN";}?></center>
